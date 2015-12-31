@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inline JS</title>
+</head>
+<body>
+    <script>
+     do {
+       var num = Math.floor((Math.random()*50)+1);
+     }
+      while (!(num%2));
+      console.log("Random odd number to skip: " + num);
+
+
+      for (var i=1; i<50; i++) {
+        if (!(i%2)) {
+          continue;
+        }
+        if (i==num) {
+          console.log("Yikes! Skipping number: " + i);
+          continue;
+        }
+        console.log("Here is an odd number: " + i);
+      }
+
+
+    </script>
+  </body>
+</html>
