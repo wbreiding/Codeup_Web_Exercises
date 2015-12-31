@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inline JS</title>
+</head>
+<body>
+    <script>
+    // todo: Ask the user for their name.
+//       Keep asking if an empty input is provided.
+var name = "";
+while (name.length == 0) {
+  name = prompt("What is your name?");
+}
+alert("Welcome " + name + "!");
+
+
+// todo: Show an alert message that welcomes the user based on their input.
+
+// todo: Ask the user if they like pizza.
+//       Based on their answer show a creative alert message.
+if (confirm("Do you like pizza?")) {
+  alert("Great!  Let's order one now!");
+} else {
+  alert("Let's go out for sushi, then.");
+}
+    </script>
+  </body>
+  </html>
