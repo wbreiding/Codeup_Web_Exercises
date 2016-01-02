@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inline JS</title>
+</head>
+<body>
+    <script>
+    // todo:
+    // Create an array of objects that represent books.
+    // Each book should have a title and an author.
+    // The book author should be an object with a firstName and lastName.
+    // Be creative and add at least 5 books to the array
+    var books = [{"Title": "The Blood of Olympus", "Author":{"firstName":"Rick","lastName":"Riordan"}},
+        {"Title": "Crime and Punishment", "Author":{"firstName":"Fyodor","lastName":"Dostoyevski"}},
+        {"Title": "Dead in the Family", "Author":{"firstName":"Charlaine","lastName":"Harris"}},
+        {"Title": "The Walking Dead", "Author":{"firstName":"Robert","lastName":"Kirkman"}},
+        {"Title": "A Game of Thrones", "Author":{"firstName":"George","lastName":"R.R. Martin"}}];
+
+// log out the books array
+console.log(books);
+
+// todo:
+// Loop through the array of books using .forEach and print out the specified information about each one.
+// start loop here
+books.forEach(function(element,index,array) {
+console.log("Book #" + index);
+console.log("Title: " + element.Title);
+console.log("Author: " + element.Author.firstName + " " + element.Author.lastName);
+console.log("---");
+});
+// end loop here
+    </script>
+  </body>
+  </html>
