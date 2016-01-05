@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Calculator</title>
+  </head>
+
+  <body>
+    <div id="calculator">
+      <input type="text" id="leftOperand" name="leftOperand" value="" readonly />
+      <input type="text" id="operator" name="operator" value="" readonly />
+      <input type="text" id="rightOperand" name="rightOperand" value="" readonly /> <br />
+      <button id="1" value="1">1</button> <button id="2" value="2">2</button> <button id="3" value="3">3</button> <button id="+" value="+">+</button><br />
+      <button id="4" value="4">4</button> <button id="5" value="5">5</button> <button id="6" value="6">6</button> <button id="-" value="-">-</button><br />
+      <button id="7" value="7">7</button> <button id="8" value="8">8</button> <button id="9" value="9">9</button> <button id="*" value="*">*</button><br />
+      <button id="C" value="C">C</button> <button id="0" value="0">0</button> <button id="." value=".">.</button> <button id="=" value="=">=</button> <button id="/" value="/">/</button>
+    </div>
+
+    <script>
+    var NumListener = function (event) {
+      if (!(document.getElementById('operator').value)) {
+        document.getElementById('leftOperand').value = document.getElementById('leftOperand').value + this.value;
+      } else {
+        document.getElementById('rightOperand').value = document.getElementById('rightOperand').value + this.value;
+      }
+    }
+
+    var OperatorListener = function (event) {
+      document.getElementById('operator').value = this.value;
+    }
+
+    var EqualListener = function (event) {
+      var leftNum = document.getElementById('leftOperand').value;
+      var oper = document.getElementById('operator').value;
+      var rightNum = document.getElementById('rightOperand').value;
+      var equation = leftNum + oper + rightNum;
+      document.getElementById('leftOperand').value = eval(equation);
+      document.getElementById('rightOperand').value = "";
+
+    }
+
+    var ClearListener = function (event) {
+      document.getElementById('leftOperand').value = "";
+      document.getElementById('operator').value = "";
+      document.getElementById('rightOperand').value = "";
+    }
+
+    var btn1 = document.getElementById('1');
+    var btn2 = document.getElementById('2');
+    var btn3 = document.getElementById('3');
+    var btn4 = document.getElementById('4');
+    var btn5 = document.getElementById('5');
+    var btn6 = document.getElementById('6');
+    var btn7 = document.getElementById('7');
+    var btn8 = document.getElementById('8');
+    var btn9 = document.getElementById('9');
+    var btn0 = document.getElementById('0');
+    var btnDot = document.getElementById('.');
+    btn1.addEventListener('click', NumListener, false);
+    btn2.addEventListener('click', NumListener, false);
+    btn3.addEventListener('click', NumListener, false);
+    btn4.addEventListener('click', NumListener, false);
+    btn5.addEventListener('click', NumListener, false);
+    btn6.addEventListener('click', NumListener, false);
+    btn7.addEventListener('click', NumListener, false);
+    btn8.addEventListener('click', NumListener, false);
+    btn9.addEventListener('click', NumListener, false);
+    btn0.addEventListener('click', NumListener, false);
+    btnDot.addEventListener('click',NumListener,false);
+
+    var btnAdd = document.getElementById('+');
+    var btnSub = document.getElementById('-');
+    var btnMult = document.getElementById('*');
+    var btnDiv = document.getElementById('/');
+    btnAdd.addEventListener('click', OperatorListener, false);
+    btnSub.addEventListener('click', OperatorListener, false);
+    btnMult.addEventListener('click', OperatorListener, false);
+    btnDiv.addEventListener('click', OperatorListener, false);
+
+    var btnEqual = document.getElementById('=');
+    btnEqual.addEventListener('click', EqualListener, false);
+    var btnClear = document.getElementById('C');
+    btnClear.addEventListener('click', ClearListener, false);
+
+    </script>
+  </body>
+  </html>
