@@ -1,27 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
     <title>Calculator</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+
   </head>
 
-  <body>
+  <body role="document">
+
+    <div class="container theme-showcase" role="main">
     <div id="calculator">
       <input type="text" id="leftOperand" name="leftOperand" value="" readonly />
       <input type="text" id="operator" name="operator" value="" readonly />
       <input type="text" id="rightOperand" name="rightOperand" value="" readonly /> <br />
-      <button id="1" value="1">1</button> <button id="2" value="2">2</button> <button id="3" value="3">3</button> <button id="+" value="+">+</button><br />
-      <button id="4" value="4">4</button> <button id="5" value="5">5</button> <button id="6" value="6">6</button> <button id="-" value="-">-</button><br />
-      <button id="7" value="7">7</button> <button id="8" value="8">8</button> <button id="9" value="9">9</button> <button id="*" value="*">*</button><br />
-      <button id="C" value="C">C</button> <button id="0" value="0">0</button> <button id="." value=".">.</button> <button id="=" value="=">=</button> <button id="/" value="/">/</button>
+      <button id="1" value="1" class="btn btn-lg btn-primary">1</button> <button id="2" value="2" class="btn btn-lg btn-primary">2</button> <button id="3" value="3" class="btn btn-lg btn-primary">3</button> <button id="+" value="+" class="btn btn-lg btn-info">+</button> <button id="(-)" value="-" class="btn btn-lg btn-info">(-)</button><br />
+      <button id="4" value="4" class="btn btn-lg btn-primary">4</button> <button id="5" value="5" class="btn btn-lg btn-primary">5</button> <button id="6" value="6" class="btn btn-lg btn-primary">6</button> <button id="-" value="-" class="btn btn-lg btn-info">-</button> <button id="^"  value="^" class="btn btn-lg btn-info">^</button><br />
+      <button id="7" value="7" class="btn btn-lg btn-primary">7</button> <button id="8" value="8" class="btn btn-lg btn-primary">8</button> <button id="9" value="9" class="btn btn-lg btn-primary">9</button> <button id="*" value="*" class="btn btn-lg btn-info">*</button> <button id="sqrt" value="sqrt" class="btn btn-lg btn-info">sqrt</button><br />
+      <button id="C" value="C" class="btn btn-lg btn-success">C</button> <button id="0" value="0" class="btn btn-lg btn-primary">0</button> <button id="." value="." class="btn btn-lg btn-primary">.</button> <button id="=" value="=" class="btn btn-lg btn-warning">=</button> <button id="/" value="/" class="btn btn-lg btn-info">/</button>
     </div>
 
     <script>
     var NumListener = function (event) {
+      var negative = "";
+      var value=this.value;
+      if (this.value == "-") {
+        negative = "-";
+        value="";
+      }
       if (!(document.getElementById('operator').value)) {
-        document.getElementById('leftOperand').value = document.getElementById('leftOperand').value + this.value;
+        document.getElementById('leftOperand').value = negative + document.getElementById('leftOperand').value + value;
       } else {
-        document.getElementById('rightOperand').value = document.getElementById('rightOperand').value + this.value;
+        document.getElementById('rightOperand').value = negative + document.getElementById('rightOperand').value + value;
       }
     }
 
@@ -30,13 +53,18 @@
     }
 
     var EqualListener = function (event) {
+      var equation = "";
       var leftNum = document.getElementById('leftOperand').value;
       var oper = document.getElementById('operator').value;
       var rightNum = document.getElementById('rightOperand').value;
-      var equation = leftNum + oper + rightNum;
+      (oper == "^") ? equation = Math.pow(leftNum,rightNum): equation = leftNum + oper + rightNum;
       document.getElementById('leftOperand').value = eval(equation);
       document.getElementById('rightOperand').value = "";
 
+    }
+
+    var SqrtListener = function (event) {
+      document.getElementById('leftOperand').value = Math.sqrt(document.getElementById('leftOperand').value);
     }
 
     var ClearListener = function (event) {
@@ -56,6 +84,7 @@
     var btn9 = document.getElementById('9');
     var btn0 = document.getElementById('0');
     var btnDot = document.getElementById('.');
+    var btnNeg = document.getElementById('(-)');
     btn1.addEventListener('click', NumListener, false);
     btn2.addEventListener('click', NumListener, false);
     btn3.addEventListener('click', NumListener, false);
@@ -67,15 +96,20 @@
     btn9.addEventListener('click', NumListener, false);
     btn0.addEventListener('click', NumListener, false);
     btnDot.addEventListener('click',NumListener,false);
+    btnNeg.addEventListener('click',NumListener,false);
 
     var btnAdd = document.getElementById('+');
     var btnSub = document.getElementById('-');
     var btnMult = document.getElementById('*');
     var btnDiv = document.getElementById('/');
+    var btnPower = document.getElementById('^');
+    var btnSqrt = document.getElementById('sqrt');
     btnAdd.addEventListener('click', OperatorListener, false);
     btnSub.addEventListener('click', OperatorListener, false);
     btnMult.addEventListener('click', OperatorListener, false);
     btnDiv.addEventListener('click', OperatorListener, false);
+    btnPower.addEventListener('click', OperatorListener, false);
+    btnSqrt.addEventListener('click', SqrtListener, false);
 
     var btnEqual = document.getElementById('=');
     btnEqual.addEventListener('click', EqualListener, false);
@@ -83,5 +117,6 @@
     btnClear.addEventListener('click', ClearListener, false);
 
     </script>
+  </div>
   </body>
   </html>
