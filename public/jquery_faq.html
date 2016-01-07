@@ -67,19 +67,19 @@
       $(document).ready(function() {
         $('#link').click(function(event) {
           event.preventDefault();
-          $('.invisible').fadeToggle();
+          $('.invisible').slideToggle();
         });
         $('#wrapper').children().each(function(index) {
           $(this).children().first().css('font-weight', 'bold');
         });
         $('#BiscayneToggle').click(function(event) {
-          $('#Biscayne').fadeToggle();
+          $('#Biscayne').slideToggle();
         });
         $('#CanyonToggle').click(function(event) {
-          $('#Canyon').fadeToggle();
+          $('#Canyon').slideToggle();
         });
         $('#EvergladesToggle').click(function(event) {
-          $('#Everglades').fadeToggle();
+          $('#Everglades').slideToggle();
         });
       });
     </script>
