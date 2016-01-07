@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Konami Code</title>
+</head>
+<body>
+    <h1>Konami Code</h1>
+    <div id="jquery_audioPlayer" class="jp-jplayer"></div>
+    <script src="/js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
+    <script>
+        "use strict";
+        $("#jquery_audioPlayer").jPlayer({
+            swfPath: "js",
+            wmode: "window"
+        });
+        var keyEventArray = [];
+        var testArray = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13];
+        $(document).keyup(function(event){
+            //console.log(event.keyCode);
+            keyEventArray.push(event.keyCode);
+            console.log(keyEventArray);
+            if (keyEventArray.toString() == testArray.toString()) {
+              alert("You have added 30 lives!");
+              $('body').css('background-color', 'red');
+              $('#jquery_audioPlayer').jPlayer("setMedia", {mp3:"mp3/Yippee.mp3"});
+              $('#jquery_audioPlayer').jPlayer("supplied", "mp3");
+              $('#jquery_audioPlayer').jPlayer("play");
+            }
+        });
+    </script>
+</body>
+</html>
