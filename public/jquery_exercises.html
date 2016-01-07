@@ -7,12 +7,6 @@
   </head>
   <body>
 
-    <script>
-    $(document).ready(function() {
-      alert( 'The DOM has finished loading!' );
-    });
-    </script>
-
     <h1 id="header" class="header">JQuery Exercises</h1>
 
     <div id="wrapper" class="wrapper">
@@ -23,13 +17,23 @@
             <li id="list-item2" class="list-item">Much more</li>
           </ul>
         </p>
+
+        <p class="codeup">Test</p>
+          <p class="codeup">Test 2</p>
+          <p id="codeup">Test 3</p>
+
+
+        <script>
+        $(document).ready(function() {
+          $('.codeup').css('border-style', 'solid');
+          $('.codeup').css('border-width', '1px');
+          $('.codeup').css('border-color', 'red');
+      });
+        </script>
     </div>
 
     <script>
-    $(document).ready(function() {
-      var contents = $('#list-item1').html();
-      alert(contents);
-    });
+
     </script>
 </body>
 </html>
