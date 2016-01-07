@@ -36,14 +36,44 @@
     </dl>
 
     <a href="#" id="link">Toggle the information</a>
+<div id="wrapper">
+    <h3>Everglades</h3>
+    <ul>
+      <li>protects the southern 20 percent of the original Everglades</li>
+      <li>it is the largest tropical wilderness in the US</li>
+      <li>it is the largest wilderness of any kind east of the Mississippi River</li>
+      <li>it is visited on average by one million people each year</li>
+    </ul>
+
+    <h3>Grand Canyon</h3>
+    <ul>
+      <li>the United States' 15th oldest national park</li>
+      <li>park's central feature is the Grand Canyon, a gorge of the Colorado River, which is often considered one of the Seven Natural Wonders of the World</li>
+      <li>covers 1,217,262 acres (1,901.972 sq mi; 492,608 ha; 4,926.08 km2) of unincorporated area in Coconino and Mohave counties</li>
+      <li>officially designated a national park in 1919</li>
+    </ul>
+
+    <h3>Biscayne</h3>
+    <ul>
+      <li>protects four distinct ecosystems: the shoreline mangrove swamp, the shallow waters of Biscayne Bay, the coral limestone keys and the offshore Florida Reef</li>
+      <li>covers 172,971 acres (69,999 ha) and includes Elliott Key, the park's largest island and first of the true Florida Keys, formed from fossilized coral reef</li>
+      <li>The offshore portion of the park includes the northernmost region of the Florida Reef, one of the largest coral reefs in the world</li>
+      <li>Originally proposed for inclusion in Everglades National Park, Biscayne Bay was cut from the proposed park to ensure Everglades' establishment</li>
+    </ul>
+</div>
     <script>
       "use strict";
 
       $(document).ready(function() {
         $('#link').click(function(event) {
           event.preventDefault();
-          console.log('in here');
           $('dd').toggleClass('invisible');
+        })
+        $('#wrapper').children().each(function(index) {
+          $(this).children().first().css('font-weight', 'bold');
+        });
+        $('li').click(function(event) {
+          $(this).parent().toggleClass('invisible');
         })
       });
     </script>
