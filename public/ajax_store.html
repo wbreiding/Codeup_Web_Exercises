@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Store</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+
+</head>
+<body>
+
+<h1 class="page-header">My Tool Store</h1>
+
+<table id="products" class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Categories</th>
+        </tr>
+    </thead>
+    <tbody id="insertProducts"></tbody>
+</table>
+
+<a href="#" id="refresh">Click here to refresh the data</a>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<script>
+(function getData() {
+    // TODO: Create an ajax GET request for /data/inventory.json
+    var data = $.ajax({
+      url: "data/inventory.json",
+      type: "GET"
+    });
+    // TODO: Take the data from inventory.json and append it to the products table
+    //       HINT: Your data should come back as a JSON object; use console.log() to inspect
+    //             its contents and fields
+    //       HINT: You will want to target #insertProducts for your new HTML elements
+    var printData = "";
+    data.done(function(){
+        var responseArray = data.responseJSON;
+        responseArray.forEach(function(element,index,array) {
+          printData = printData + "<tr><td>" + element.title + "</td><td>" + element.quantity + "</td><td>" + element.price + "</td><td>" + element.categories + "</td></tr>"
+        });
+
+        $('#insertProducts').html(printData);
+    });
+
+    data.fail(function() {
+      alert('There was an error loading the data.')
+    });
+
+    $('#refresh').click(function(event) {
+        event.preventDefault();
+        getData();
+    });
+
+})();
+</script>
+
+</body>
+</html>

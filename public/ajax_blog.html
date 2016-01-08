@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>AJAX Blog Page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <div class="container">
+
+      <div class="blog-header">AJAX Blog Exercise</div>
+      <div class="blog-post">
+    <div id="posts">
+
+    </div>
+  </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <script>
+    (function getData() {
+        // TODO: Create an ajax GET request for /data/inventory.json
+        var data = $.ajax({
+          url: "data/blog.json",
+          type: "GET"
+        });
+        // TODO: Take the data from inventory.json and append it to the products table
+        //       HINT: Your data should come back as a JSON object; use console.log() to inspect
+        //             its contents and fields
+        //       HINT: You will want to target #insertProducts for your new HTML elements
+        var printData = "";
+        data.done(function(){
+            var responseArray = data.responseJSON;
+            responseArray.forEach(function(element,index,array) {
+              printData = printData + "<h2 class='blog-post-title'>" + element.title + "</h2> <p class='blog-post-meta'>" + element.date + "</p> <p>" + element.content + "</p>";
+            });
+
+            $('#posts').html(printData);
+        });
+
+        data.fail(function() {
+          alert('There was an error loading the data.')
+        });
+
+    })();
+    </script>
+
+  </body>
+  </html>
