@@ -21,55 +21,131 @@
         font-size: 15px;
         font-weight: bold;
       }
+      #map-canvas {
+          width: 770px;
+          height: 481px;
+      }
     </style>
 
   </head>
 
   <body>
+    <script src="/js/jquery.js"></script>
     <h1 id="page-header">Weather</h1>
-    <label for="latitude">Latitude</label><input type="text" name="latitude" /><label for="longitude">Longitude</label><input type="text" name="longitude" />
-    <button name="submit" value="submit" id="submit">Submit</button>
-    
+
     <div class="row" id="weather">
     </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script>
+    <div id="map-canvas"></div>
 
-      var data = $.get("http://api.openweathermap.org/data/2.5/forecast", {
-          APPID: "833158f37db5d4e8f2254b96700453eb",
-          q:     "San Antonio, TX",
-          units: "imperial",
-          cnt: 3
-      });
-      var printData = "";
-      data.done(function(data) {
-        console.log(data);
-        var city = data.city.name;
-        var conditionArray = data.list;
-        var condition = "";
-        var icon = "";
-        printData = "<h2 class='page-header'>" + city + "</h2>";
-        conditionArray.forEach(function(element,index,array) {
-          var minTemp = element.main.temp_min;
-          var maxTemp = element.main.temp_max;
-          var humidity = element.main.humidity;
-          var wind = element.wind.speed;
-          var pressure = element.main.pressure;
-          var weatherArray = element.weather;
-          weatherArray.forEach(function(element,index,array) {
-            condition = element.description;
-            icon = element.icon;
-          })
-          printData = printData + "<div class='alert alert-info'><span class='temp'>" + maxTemp + "/" + minTemp + "</span><br />";
-          printData = printData + "<img src='http://openweathermap.org/img/w/" + icon + ".png' /> <br />";
-          printData = printData + condition + "<br />";
-          printData = printData + "Humidity: " + humidity + "<br />";
-          printData = printData + "Wind: " + wind + "<br />";
-          printData = printData + "Pressure: " + pressure + "</div>";
+    <!-- Load the Google Maps API [DON'T FORGET TO USE A KEY] -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkZyT8GmgxOtDRxZlGzdvfZP-8OVfRmfg"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- Script to show address on map -->
+    <script type="text/javascript">
+    var latitude = "";
+    var longitude = "";
+    $(document).ready(function() {
+    (function() {
+        "use strict";
+
+        // Set our map options
+        var mapOptions = {
+            // Set the zoom level
+            zoom: 4
+        };
+
+            // Set our address to geocode
+            var address = "San Antonio, TX";
+
+            // Init geocoder object
+            var geocoder = new google.maps.Geocoder();
+
+            // Geocode our address
+            geocoder.geocode({ "address": address }, function(results, status) {
+
+           // Check for a successful result
+           if (status == google.maps.GeocoderStatus.OK) {
+
+               // Recenter the map over the address
+               map.setCenter(results[0].geometry.location);
+           } else {
+
+               // Show an error message with the status if our request fails
+               alert("Geocoding was not successful - STATUS: " + status);
+           }
+         });
+
+
+        // Render the map
+        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+        // Create lat and long for our marker position
+        google.maps.event.addListener(map, 'click', function(event) {
+          placeMarker(event.latLng);
         });
-        $('#weather').html(printData);
+
+        function placeMarker(location) {
+          var marker = new google.maps.Marker({
+              position: location,
+              map: map
+          });
+          map.setCenter(location);
+
+          $.ajax({
+            url: "http://maps.googleapis.com/maps/api/geocode/json?address="+location+"&sensor=false",
+            type: "POST",
+            success: function(res){
+               latitude = res.results[0].geometry.location.lat;
+               longitude = res.results[0].geometry.location.lng;
+               var data = $.get("http://api.openweathermap.org/data/2.5/forecast", {
+                   APPID: "833158f37db5d4e8f2254b96700453eb",
+                   lat:   latitude,
+                   lon: longitude,
+                   units: "imperial",
+                   cnt: 3
+               });
+               var printData = "";
+               data.done(function(data) {
+                 console.log(data);
+                 var city = data.city.name;
+                 var conditionArray = data.list;
+                 var condition = "";
+                 var icon = "";
+                 printData = "<h2 class='page-header'>" + city + "</h2>";
+                 conditionArray.forEach(function(element,index,array) {
+                   var minTemp = element.main.temp_min;
+                   var maxTemp = element.main.temp_max;
+                   var humidity = element.main.humidity;
+                   var wind = element.wind.speed;
+                   var pressure = element.main.pressure;
+                   var weatherArray = element.weather;
+                   weatherArray.forEach(function(element,index,array) {
+                     condition = element.description;
+                     icon = element.icon;
+                   })
+                   printData = printData + "<div class='alert alert-info'><span class='temp'>" + maxTemp + "/" + minTemp + "</span><br />";
+                   printData = printData + "<img src='http://openweathermap.org/img/w/" + icon + ".png' /> <br />";
+                   printData = printData + condition + "<br />";
+                   printData = printData + "Humidity: " + humidity + "<br />";
+                   printData = printData + "Wind: " + wind + "<br />";
+                   printData = printData + "Pressure: " + pressure + "</div>";
+                 });
+                 console.log(printData);
+                 $('#weather').html(printData);
+
+               });
+
+
+             }
+             });
+        };
+
+    })();
+
 
       });
+
+
       </script>
 
     </body>
