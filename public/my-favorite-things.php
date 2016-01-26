@@ -1,7 +1,18 @@
 <!DOCTYPE html>
 <?php
-$favoriteThings = array('Jade', 'Maxwell', 'Jeremy', 'Disney', 'musicals');
-sort($favoriteThings);
+  function pageController() {
+    $favoriteThings = array('Jade', 'Maxwell', 'Jeremy', 'Disney', 'musicals');
+    sort($favoriteThings);
+
+    $data = array();
+
+    $data['favoriteThings'] = $favoriteThings;
+
+    return $data;
+
+  }
+  extract(pageController());
+
  ?>
 <html>
 <head>

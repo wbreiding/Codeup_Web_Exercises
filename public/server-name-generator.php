@@ -8,8 +8,23 @@
   <body>
 
     <?php
-    $adjectives = array('pretty','funny','silly','cute','ugly','sweet','happy','sad','hungry','beautiful');
-    $nouns = array('hill','girl','boy','laptop','dollar','store','playground','computer','television','woman');
+
+    function pageController() {
+      // Initialize an empty data array.
+      $adjectives = array('pretty','funny','silly','cute','ugly','sweet','happy','sad','hungry','beautiful');
+      $nouns = array('hill','girl','boy','laptop','dollar','store','playground','computer','television','woman');
+      $data = array();
+
+      // Add data to be used in the html view.
+      $data['serverName'] = getServerName($adjectives,$nouns);
+
+      // Return the completed data array.
+      return $data;
+    }
+
+    // Call the pageController function and extract all the returned array as local variables.
+    extract(pageController());
+
 
     function getRandom($array) {
       $length = sizeof($array)-1;
@@ -24,10 +39,7 @@
       $name = "{$adjective} {$noun}";
       return $name;
     }
-
-    $serverName = getServerName($adjectives,$nouns);
-
-     ?>
+    ?>
 
     <h1>Server Name Generator</h1>
 
