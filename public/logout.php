@@ -9,7 +9,7 @@
 <?php
   (!isset($_SESSION['logged_in_user']) ? header("Location: login.php") : '');
  ?>
-<h3>Authorized</h3>
+<h3>Logout</h3>
 
 
 </body>

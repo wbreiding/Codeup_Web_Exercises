@@ -19,9 +19,12 @@
 
 $username = isset($_POST['username']) ? $_POST['username'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
+(isset($_SESSION['logged_in_user']) ? header("Location: authorized.php") : '');
 $errorMessage = "";
 
 if ($username == 'guest' && $password == 'password') {
+  session_start();
+  $_SESSION['logged_in_user'] = $username;
   header("Location: authorized.php");
 } elseif ($username == '' && $password == '') {
   $errorMessage = "";
