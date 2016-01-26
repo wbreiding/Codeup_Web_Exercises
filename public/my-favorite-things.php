@@ -23,13 +23,14 @@ sort($favoriteThings);
   <h1>My Favorite Things</h1>
 
   <table>
-    <?php foreach ($favoriteThings as $key=>$favorites) { ?>
-      <tr <?php if(!($key%2)) {echo "id='odd'";} ?>>
-        <td><?php echo $favorites; ?></td>
+    <?php foreach ($favoriteThings as $key=>$favorites): ?>
+      <tr <?php if (!($key%2)): ?>id='odd'<?php endif; ?>>
+        <td><?= $favorites ?></td>
       </tr>
-    <?php } ?>
+    <?php endforeach ?>
   </table>
 
+<!--    -->
 
 </body>
 </html>
