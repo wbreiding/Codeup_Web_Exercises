@@ -8,12 +8,13 @@
   <body>
     <?php
     require 'functions.php';
+    require_once '../Input.php';
     function pageController() {
       $data = array();
 
-      if (inputHas('action') && inputHas('hits')) {
+      if (Input::has('action') && Input::has('hits')) {
         $data['value'] = click();
-        $data['action'] = inputGet('action');
+        $data['action'] = Input::get('action');
       } else {
         $data['value'] = 0;
         $data['action'] = "New Game";
@@ -25,7 +26,7 @@
     }
 
     function click() {
-      $hitsValue = inputGet('hits');
+      $hitsValue = Input::get('hits');
       if (inputGet('action') == 'hit') {
         $hitsValue++;
       } else {
