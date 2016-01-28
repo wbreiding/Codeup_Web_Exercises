@@ -17,23 +17,27 @@
 
 <?php
 require 'functions.php';
+require_once '../Input.php';
+require_once '../Auth.php';
+
 function pageController() {
   $data = array();
 
-  (isset($_SESSION['logged_in_user']) ? header("Location: authorized.php") : '');
+  session_start();
+  if (Auth::check()) {
+    header("Location: authorized.php");
+  }
 
-  $username = (inputHas('username') ? escape(inputGet('username')) : '');
-  $password = (inputHas('password') ? escape(inputGet('password')) : '');
+  $username = (Input::has('username') ? escape(Input::get('username')) : '');
+  $password = (Input::has('password') ? Input::get(inputGet('password')) : '');
   $errorMessage = "";
 
 
-  if ($username == 'guest' && $password == 'password') {
-    session_start();
-    $_SESSION['logged_in_user'] = $username;
+  if ($username == '' && $password == '') {
+
+  } elseif (Auth::attempt($username,$password)) {
     header("Location: authorized.php");
     EXIT;
-  } elseif ($username == '' && $password == '') {
-    //$errorMessage = "";
   } else {
     $errorMessage = "Login Failed. Please try again.";
   }

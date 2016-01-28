@@ -7,27 +7,22 @@
 
 <body>
 <?php
+  require_once "../Auth.php";
+
   function pageController() {
     $data = array();
     session_start();
-    (!isset($_SESSION['logged_in_user']) ? header("Location: login.php") : '');
-    clearSession();
+    if (Auth::check()) {
+      Auth::logout();
+      header("Location: login.php");
+    } else {
+      header("Location: login.php");
+    }
+
     return $data;
   }
 
   extract(pageController());
-
-
-  function clearSession() {
-    // clear $_SESSION array
-    session_unset();
-
-    // delete session data on the server and send the client a new cookie
-    session_regenerate_id(true);
-
-    header("Location: login.php");
-
-  }
 
 
  ?>
