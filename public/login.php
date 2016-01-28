@@ -17,21 +17,33 @@
 
 <?php
 
-$username = isset($_POST['username']) ? $_POST['username'] : '';
-$password = isset($_POST['password']) ? $_POST['password'] : '';
-(isset($_SESSION['logged_in_user']) ? header("Location: authorized.php") : '');
-$errorMessage = "";
+function pageController() {
+  $data = array();
 
-if ($username == 'guest' && $password == 'password') {
-  session_start();
-  $_SESSION['logged_in_user'] = $username;
-  header("Location: authorized.php");
-} elseif ($username == '' && $password == '') {
+  (isset($_SESSION['logged_in_user']) ? header("Location: authorized.php") : '');
+
+  $username = isset($_POST['username']) ? $_POST['username'] : '';
+  $password = isset($_POST['password']) ? $_POST['password'] : '';
   $errorMessage = "";
-} else {
-  $errorMessage = "Login Failed. Please try again.";
+
+
+  if ($username == 'guest' && $password == 'password') {
+    session_start();
+    $_SESSION['logged_in_user'] = $username;
+    header("Location: authorized.php");
+    EXIT;
+  } elseif ($username == '' && $password == '') {
+    //$errorMessage = "";
+  } else {
+    $errorMessage = "Login Failed. Please try again.";
+  }
+
+  $data['errorMessage'] = $errorMessage;
+
+  return $data;
 }
 
+extract(pageController());
  ?>
 
 <div id="message"><?= $errorMessage ?></div>
