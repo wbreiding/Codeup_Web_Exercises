@@ -7,12 +7,13 @@
 
   <body>
     <?php
+      require 'functions.php';
       function pageController() {
         $data = array();
 
-        if (isset($_GET['action']) && isset($_GET['hits'])) {
+        if (inputHas('action') && inputHas('hits')) {
           $data['value'] = click();
-          $data['action'] = $_GET['action'];
+          $data['action'] = inputGet('action');
         } else {
           $data['value'] = 0;
           $data['action'] = "New Game";
@@ -24,8 +25,8 @@
       }
 
       function click() {
-        $hitsValue = $_GET['hits'];
-        if ($_GET['action'] == 'hit') {
+        $hitsValue = inputGet('hits');
+        if (inputGet('action') == 'hit') {
           $hitsValue++;
         } else {
           $hitsValue = 0;

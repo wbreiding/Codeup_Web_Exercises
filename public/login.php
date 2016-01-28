@@ -16,14 +16,14 @@
 <h3>User Login</h3>
 
 <?php
-
+require 'functions.php';
 function pageController() {
   $data = array();
 
   (isset($_SESSION['logged_in_user']) ? header("Location: authorized.php") : '');
 
-  $username = isset($_POST['username']) ? $_POST['username'] : '';
-  $password = isset($_POST['password']) ? $_POST['password'] : '';
+  $username = (inputHas('username') ? escape(inputGet('username')) : '');
+  $password = (inputHas('password') ? escape(inputGet('password')) : '');
   $errorMessage = "";
 
 
