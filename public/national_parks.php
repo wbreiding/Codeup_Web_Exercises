@@ -20,6 +20,7 @@
       <th>Park</th> <th>Location</th> <th>Date Established</th> <th>Area in Acres</th>
     </tr>
 <?php
+require "../Input.php";
 
 define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'parks_db');
@@ -27,13 +28,28 @@ define('DB_USER', 'parks_user');
 define('DB_PASS', 'parks');
 require "../db_connect.php";
 
-$stmt = $dbc->query('SELECT id, name, location, date_established, area_in_acres FROM national_parks')->fetchAll(PDO::FETCH_ASSOC);
+if (isset($_REQUEST['page'])) {
+  $page = Input::get('page');
+} else {
+  $page = 1;
+}
 
+$offset = ($page-1)*4;
+$previous = $page-1;
+$next = $page+1;
+
+$stmt = $dbc->query("SELECT id, name, location, date_established, area_in_acres FROM national_parks LIMIT 4 OFFSET {$offset}")->fetchAll(PDO::FETCH_ASSOC);
+$count = $dbc->query("SELECT * FROM national_parks")->rowCount();
+
+$maxPage = $count/4;
 ?>
 <?php foreach ($stmt as $info): ?>
   <tr <?php if (!($info['id']%2)): ?>id='odd'<?php endif; ?>>
     <td><?=$info['name']?></td> <td><?=$info['location'] ?></td>  <td><?=$info['date_established']?></td> <td><?=$info['area_in_acres']?></td>
   </tr>
 <?php endforeach ?>
+
+<?php if ($page !=1): ?><a href='?page=<?= $previous ?>'>Previous Page</a> | <?php endif ?>
+  <?php if ($page < $maxPage): ?> <a href='?page=<?= $next ?>'>Next Page</a> <?php endif ?>
 </body>
 </html>
