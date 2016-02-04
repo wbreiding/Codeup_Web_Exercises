@@ -28,17 +28,13 @@
   //put handling of insert here
   $errorMessage = "";
   if (isset($_REQUEST['submit'])) {
-      $errorMessage = $errorMessage . (Input::has('name') ? "" : "Name is not set<br />");
-      $errorMessage = $errorMessage . (Input::has('location') ? "" : "Location is not set<br />");
-      $errorMessage = $errorMessage . (Input::has('date_established') ? "" : "Date Established is not set<br />");
-      $errorMessage = $errorMessage . (Input::has('area_in_acres') ? "" : "Area in Acres is not set<br />");
-      $errorMessage = $errorMessage . (Input::has('description') ? "" : "Description is not set<br />");
-      $inputDate = htmlspecialchars(strip_tags(Input::get('date_established')));
-      $inputDate = date('Y-m-d', strtotime($inputDate)); 
-      $errorMessage = $errorMessage . ((bool)strtotime($inputDate) ? "" : "{$inputDate} is not a valid date.<br />");
-      $errorMessage = $errorMessage . (is_numeric(Input::get('area_in_acres')) ? "" : "Area must be a valid number.<br />");
-      if($errorMessage == "") {
-        $dataArray = array(htmlspecialchars(strip_tags(Input::get('name'))),htmlspecialchars(strip_tags(Input::get('location'))), $inputDate, htmlspecialchars(strip_tags(Input::get('area_in_acres'))), htmlspecialchars(strip_tags(Input::get('description'))));
+      $inputName = Input::getString('name');
+      $inputLocation = Input::getString('location');
+      $inputDate = Input::getDate('date_established');
+      $inputArea = Input::getNumber('area_in_acres');
+      $inputDescription = Input::getString('description');
+        $dateResult = $inputDate->format('Y-m-d H:i:s');
+        $dataArray = array(htmlspecialchars(strip_tags(Input::getString('name'))),htmlspecialchars(strip_tags(Input::getString('location'))), $dateResult, htmlspecialchars(strip_tags(Input::getNumber('area_in_acres'))), htmlspecialchars(strip_tags(Input::getString('description'))));
         $insert = 'INSERT INTO national_parks (name,location,date_established, area_in_acres, description) VALUES (?,?,?,?,?)';
         $stmt = $dbc->prepare($insert);
         $stmt->execute($dataArray);
@@ -48,7 +44,6 @@
         } else {
           $errorMessage = "Your entry has been submitted successfully.";
         }
-      }
   }
    ?>
   <div id="error"><?=$errorMessage ?></div>

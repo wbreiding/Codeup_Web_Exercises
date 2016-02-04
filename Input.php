@@ -29,6 +29,44 @@ class Input
         return $answer;
     }
 
+    public static function getString($key) {
+        $string = (static::has($key) ? static::get($key) : "");
+        if (is_null($string)) {
+          throw new Exception("{$key} does not exist", 1);
+        }
+        if (is_string($string)) {
+          return $string;
+        } else {
+          throw new Exception("{$string} is not a string", 1);
+        }
+    }
+
+    public static function getNumber($key) {
+      $num = (static::has($key) ? static::get($key) : "");
+      if (is_null($num)) {
+        throw new Exception("{$key} does not exist", 1);
+      }
+      if (is_numeric($num)) {
+        return (float)$num;
+      } else {
+        throw new Exception("{$num} is not a number", 1);
+      }
+
+    }
+
+    public static function getDate($key) {
+      $date = (static::has($key) ? static::get($key) : "");
+      if (is_null($date)) {
+        throw new Exception("{$key} does not exist", 1);
+      }
+      if ((bool)strtotime($date)) {
+        $dt = new DateTime($date);
+        return $dt;
+      } else {
+        throw new Exception("{$date} is not a date.", 1);
+      }
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     //                      DO NOT EDIT ANYTHING BELOW!!                     //
     // The Input class should not ever be instantiated, so we prevent the    //
