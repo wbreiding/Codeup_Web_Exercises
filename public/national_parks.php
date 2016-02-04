@@ -27,14 +27,21 @@
 
   //put handling of insert here
   $errorMessage = "";
+  $errors = [];
+  $inputName = "";
+  $inputLocation = "";
+  $dateResult = "";
+  $inputArea = "";
+  $inputDescription="";
   if (isset($_REQUEST['submit'])) {
+    try {
       $inputName = Input::getString('name');
       $inputLocation = Input::getString('location');
       $inputDate = Input::getDate('date_established');
       $inputArea = Input::getNumber('area_in_acres');
       $inputDescription = Input::getString('description');
         $dateResult = $inputDate->format('Y-m-d H:i:s');
-        $dataArray = array(htmlspecialchars(strip_tags(Input::getString('name'))),htmlspecialchars(strip_tags(Input::getString('location'))), $dateResult, htmlspecialchars(strip_tags(Input::getNumber('area_in_acres'))), htmlspecialchars(strip_tags(Input::getString('description'))));
+        $dataArray = array($inputName,$inputLocation, $dateResult, $inputArea, $inputDescription);
         $insert = 'INSERT INTO national_parks (name,location,date_established, area_in_acres, description) VALUES (?,?,?,?,?)';
         $stmt = $dbc->prepare($insert);
         $stmt->execute($dataArray);
@@ -43,7 +50,18 @@
           $errorMessage = "There was an error inserting the new row.";
         } else {
           $errorMessage = "Your entry has been submitted successfully.";
+          $inputName = "";
+          $inputLocation = "";
+          $dateResult = "";
+          $inputArea = "";
+          $inputDescription = "";
         }
+      } catch (Exception $e) {
+        $errors[] = $e->getMessage();
+      }
+      foreach ($errors as $error) {
+        $errorMessage = $errorMessage . "An error occurred: {$error} <br />";
+      }
   }
    ?>
   <div id="error"><?=$errorMessage ?></div>
@@ -83,11 +101,11 @@ $maxPage = $count/4;
 
 <p>
   <form method="post" action="national_parks.php">
-  <label for="name">Name</label> <input type="text" name="name" /><br />
-  <label for="location">Location</label> <input type="text" name="location" /><br />
-  <label for="date_established">Date Established</label> <input type="text" name="date_established" /><br />
-  <label for="area_in_acres">Area In Acres</label> <input type="text" name="area_in_acres" /><br />
-  <label for="description">Description</label><textarea name="description"></textarea><br />
+  <label for="name">Name</label> <input type="text" name="name" value="<?=$inputName?>" /><br />
+  <label for="location">Location</label> <input type="text" name="location" value="<?=$inputLocation?>" /><br />
+  <label for="date_established">Date Established</label> <input type="text" name="date_established" value="<?=$dateResult?>" /><br />
+  <label for="area_in_acres">Area In Acres</label> <input type="text" name="area_in_acres" value="<?=$inputArea?>" /><br />
+  <label for="description">Description</label><textarea name="description"><?=$inputDescription?></textarea><br />
   <input type="submit" name="submit" value="submit" />
 </form>
 </p>
