@@ -35,11 +35,11 @@
   $inputDescription="";
   if (isset($_REQUEST['submit'])) {
     try {
-      $inputName = Input::getString('name');
-      $inputLocation = Input::getString('location');
-      $inputDate = Input::getDate('date_established');
-      $inputArea = Input::getNumber('area_in_acres');
-      $inputDescription = Input::getString('description');
+      $inputName = Input::getString('name',1,50);
+      $inputLocation = Input::getString('location',1,50);
+      $inputDate = Input::getDate('date_established','1776-07-04');
+      $inputArea = Input::getNumber('area_in_acres',1,5000000);
+      $inputDescription = Input::getString('description',1,255);
         $dateResult = $inputDate->format('Y-m-d H:i:s');
         $dataArray = array($inputName,$inputLocation, $dateResult, $inputArea, $inputDescription);
         $insert = 'INSERT INTO national_parks (name,location,date_established, area_in_acres, description) VALUES (?,?,?,?,?)';
