@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Sum up the Digits</title>
+</head>
+
+<body>
+  <script src="/js/jquery.js"></script>
+
+  <form action="" method="POST" name="numberSum">
+    <label for="number">Number</label>  <input type="text" name="number" id="number" /> <input type="submit" name="submit" value="Submit" id="submit" />
+  </form>
+
+  Sum:  <span id="sum"></span>
+
+  <script>
+    "use strict";
+
+    $(document).ready(function() {
+      $('#submit').click(function(event) {
+        event.preventDefault();
+        $('#sum').html(sum($('#number').val()));
+      });
+    });
+
+    function sum(num) {
+      var string = num.toString().split("");
+      var sum = 0;
+      for (var i=0; i<string.length; i++) {
+        sum = parseInt(sum) + parseInt(string[i]);
+      }
+      console.log(sum);
+      return sum;
+    }
+  </script>
+</body>
+</html>
