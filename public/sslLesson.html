@@ -1,0 +1,141 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>SSL</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+
+
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="http://app2.codeup.com/gitbook/style.css">
+
+
+        <link rel="stylesheet" href="http://app2.codeup.com/gitbook/plugins/gitbook-plugin-scrollablecode/scrollablecode.css">
+
+
+
+        <link rel="stylesheet" href="http://app2.codeup.com/gitbook/plugins/gitbook-plugin-youtubex/player.css">
+
+
+
+        <link rel="stylesheet" href="http://app2.codeup.com/gitbook/plugins/gitbook-plugin-highlight/website.css">
+
+
+
+        <link rel="stylesheet" href="http://app2.codeup.com/gitbook/plugins/gitbook-plugin-search/search.css">
+
+
+
+        <link rel="stylesheet" href="http://app2.codeup.com/gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+
+    </head>
+    <body>
+
+
+    <div class="book"
+        data-level="7.1.4"
+        data-chapter-title="POST Requests"
+        data-filepath="content/php_iii/php-with-html/post-with-php.md"
+        data-basepath="../../.."
+        data-revision="Wed Jan 27 2016 23:26:09 GMT+0000 (UTC)"
+        data-innerlanguage="">
+
+
+    <div class="book-body">
+        <div class="body-inner">
+
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+
+
+                    <section class="normal" id="section-">
+
+                        <h1 id="post-with-php">SSL</h1>
+<p>In this lesson, we're going to talk about the things that are important for a developer to know when it comes to SSL.</p>
+<h2 id="what-is-ssl">What is SSL?</h2>
+<p>SSL stands for Secure Sockets Layer.  It is the standard security technology for establishing an encrypted link between a web server and a browser.  The link ensures that all data passed between the web server and browser remain private.</p>
+<h2 id="real-means">What does that really mean?</h2>
+<p>Remember back when you were in elementary school, and you wanted to pass a note across the room to Jenni.  You would pass it to a friend near you and say "get it to Jenni" and the kids in the room would keep it moving along until she got it.</p>
+<p>The <em>problem</em> is that anyone who gets the note along the way can open it and read it, including the teacher.</p>
+<p>SSL is a type of certificate used to make sure the contents of a packet (note) don't get read.  It's like putting your note in a lock box and you gave the key to Jenni ahead of time.  She's the only one who can open it because she has the key (SSL certificate).</p>
+<p>HTTPS is an altered version of HTTP protocol that makes sure whoever tries to open the box has the key.  Anyone who tries without the key will see garbled (encrypted) data.</p>
+<h2>Parts of SSL</h2>
+<p>There are two components to SSL, encryption and identification.</p>
+<h3>Encryption</h3>
+<p>Two types:</p>
+<dl>
+  <dt>Symmetric: taking plain text and converting it to ciphertext using the same key, or secret, to encrypt and decrypt the text</dt>
+    <dd>This is used when you want to store sensitive data in your data store.  It is also used during the SSL process for communication between the two computers.</dd>
+  <dt>Asymmetric (public key cryptology): uses two interdependent keys, one to encrypt the data, and the other to decrypt it</dt>
+    <dd>This is the main encryption type for SSL.</dd>
+</dl>
+<h3>Encryption in SSL</h3>
+<p>
+  <ol>
+    <li>Browser makes a request.</li>
+    <li>Server sends a copy of its asymmetric public key.</li>
+    <li>Browser creates a symmetric session key and encrypts it with the server's asymmetric public key. Then sends it to the server.</li>
+    <li>Server decrypts the encrypted session key using its asymmetric private key to get the symmetric session key.</li>
+    <li>Server and Browser now encrypt and decrypt all transmitted data with the symmetric session key. This allows for a secure channel because only the browser and the server know the symmetric session key, and the session key is only used for that session. If the browser was to connect to the same server the next day, a new session key would be created.</li>
+  </ol>
+</p>
+<h3>Identification</h3>
+<p>The other part of SSL, besides encryption, is identification.  This is the part where Jenni can be sure that the note came from you (the browser can be sure that your server is the server that they trust).  You want to make sure that your certificate is issued by a trusted CA (certification authority).</p>
+<p>A user's browser will only alert the user if the certificate from the server has some sort of problem (isn't signed by a trusted root certificate or expired).</p>
+<h2 id="certificate-parts">Parts of SSL certificates</h2>
+<p>As a developer, you don't need to fully understand all of these, but want you to be aware of what's in every certificate.</p>
+  <ul>
+    <li>Owner's Name</li>
+    <li>Certificate's serial number</li>
+    <li>Certificate's expiration date</li>
+    <li>Certificate's public key, used to encrypt information</li>
+</ul>
+<h2 id="need-to-know">Common mistakes and remedies</h2>
+<ol>
+  <li>Hostname - is your certificate for www.domain.com?  If so, all of your links must be in this format.  Any requests to https://domain.com or https://subdomain.domain.com will generate a certificate warning.
+<p>To solve this problem, you can either buy:</p>
+  <ul>
+      <li>multiple certificates</li>
+      <li>multi-domain certificate (www.google.com and www.gmail.com)</li>
+      <li>wild card certificate (www.mywebsite.com, login.mywebsite.com, blog.mywebsite.com)</li>
+  </ul></li>
+<li>Make sure you don't load any insecure content (CSS, images, Javascript, etc.) from your site.  This will cause the browser to complain about "mixed content" and visitors won't have confidence in your site's security.
+  <p>This is usually done by ensuring that your included content are all accessed using relative links. Or, if accessing on another server, access using https.</p></li>
+</ol>
+<h2>Configuring SSL</h2>
+<p>For information on configuring your NGINX server for HTTPS, go to <a href="http://nginx.org/en/docs/http/configuring_https_servers.html" target="_external">http://nginx.org/en/docs/http/configuring_https_servers.html</a>.</p>
+<h2 id="exercise">Exercise</h2>
+<ol>
+  <li>Go to <a href="http://www.ssllabs.com" target="_external">http://www.ssllabs.com</a></li>
+  <li>Select to Test Your Server</li>
+  <li>View the reports of some of your favorite sites<br />Notice Protocol Support, Key Exchange, Cipher Strength<br />Compare a few sites to see different issues your site could face</li>
+</ol>
+                    </section>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+
+    </body>
+
+</html>
